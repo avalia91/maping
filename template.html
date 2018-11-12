@@ -35,7 +35,20 @@
     <div id="map"></div>
     <div class="tooltip"></div>
     <script>
-    // Insert D3 code here
+   var data_map = d3.map();
+d3.queue()
+    .defer(d3.json, "maps/gz_2010_us_050_00_5m.json")
+    .defer(d3.csv, "data/PovertyEstimates.csv", function(d){
+        // Convert to number
+        d['PCTPOVALL_2014'] = +d['PCTPOVALL_2014'];
+
+        // Use the county's FIPS code to access that county's data
+        return data_map.set(d['FIPStxt'], d);
+    })
+    .await(function(error, map_json, data_csv) {
+        // Visualization code to come
+    });   
+ 
     </script>
 </body>
 </html>
